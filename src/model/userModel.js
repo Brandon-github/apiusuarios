@@ -5,13 +5,48 @@ let query = '';
 
 
 model.obtenerUsuarios = (callback) => {
-    query = `SELECT u.nombre, u.correo, r.nombre AS rol
-                FROM usuarios AS u
-                    INNER JOIN roles AS r
-                        ON (u.id_rol = r.id_rol)
-                ORDER BY u.nombre`;
+    query = `SELECT id_usuario, nombre, correo, id_rol
+                FROM usuarios`;
 
     connection.query(query, callback);
+}
+
+model.obtenerUsuarioPorId = (data, callback) => {
+    query = `SELECT id_usuario, nombre, correo, id_rol
+                FROM usuarios
+                WHERE id_usuario = ?`;
+    
+    connection.query(query, data, callback);
+}
+
+model.obtenerUsuarioPorNombre = (data, callback) => {
+    query = `SELECT id_usuario, nombre, correo, id_rol
+                FROM usuarios
+                WHERE nombre LIKE ?%`;
+
+    connection.query(query, data, callback);
+}
+
+model.insertarUsuario = (data, callback) => {
+    query = `INSERT INTO usuarios(nombre, correo, id_rol)
+                VALUES(?, ?, ?)`;
+
+    connection.query(query, data, callback);
+}
+
+model.modificarUsuario = (data, callback) => {
+    query = `UPDATE usuarios
+                SET nombre = ?, correo = ?, id_rol = ?
+                WHERE id_usuario = ?`;
+
+    connection.query(query, data, callback);
+}
+
+model.eliminarUsuario = (data, callback) => {
+    query = `DELETE FROM usuarios
+                WHERE id_usuario = ?`;
+
+    connection.query(query, data, callback);
 }
 
 module.exports = model;
