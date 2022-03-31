@@ -1,5 +1,6 @@
 const controller = {};
 
+// Importacion de model de usuario
 const userModel = require('../model/userModel');
 
 controller.listarUsuarios = (req, res) => {
